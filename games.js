@@ -1,5 +1,9 @@
 const canvas = document.querySelector('#game');
 const game = canvas.getContext('2d');
+const btnUp = document.querySelector('#up')
+const btnRight = document.querySelector('#right')
+const btnLeft = document.querySelector('#left')
+const btnDown = document.querySelector('#down')
 
 let canvasSize;
 let elementsSize;
@@ -42,4 +46,30 @@ function startGame () {
             game.fillText(emoji, posX, posY);
         })
     });
+}
+
+window.addEventListener('keydown', moveByKeys);
+btnUp.addEventListener('click', moveUp);
+btnRight.addEventListener('click', moveRight);
+btnLeft.addEventListener('click', moveLeft);
+btnDown.addEventListener('click', moveDown);
+
+function moveByKeys(event) {
+    if (event.key == 'ArrowUp') moveUp();
+    else if (event.key == 'ArrowRight') moveRight();
+    else if (event.key == 'ArrowLeft') moveLeft();
+    else if (event.key == 'ArrowDown') moveDown();
+    }
+
+function moveUp() {
+    console.log('Me quiero mover hacia arriba');    
+}
+function moveRight() {
+    console.log('Me quiero mover hacia la derecha');    
+}
+function moveLeft() {
+    console.log('Me quiero mover hacia la izquierda');    
+}
+function moveDown() {
+    console.log('Me quiero mover hacia abajo');    
 }
