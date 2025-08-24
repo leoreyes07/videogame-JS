@@ -7,6 +7,7 @@ const btnDown = document.querySelector('#down');
 
 let canvasSize;
 let elementsSize;
+let level = 0;
 
 const playerPosition = {
   x: undefined,
@@ -42,7 +43,13 @@ function startGame() {
   game.font = elementsSize + 'px Verdana';
   game.textAlign = 'end';
 
-  const map = maps[0];
+  const map = maps[level];
+
+  if (!map) {
+    youWon();
+    return;
+  }
+
   const mapRows = map.trim().split('\n');
   const mapCols = mapRows.map((row) => row.trim().split(''));
   console.log({ map, mapRows, mapCols });
@@ -85,12 +92,12 @@ function movePlayer() {
   const giftCollision = giftCollisionX && giftCollisionY;
 
   if (giftCollision) {
-    console.log('New level');
+    levelPassed();
   }
 
   const enemyCollision = enemyPositions.find(enemy => {
-    const enemyCollisionX = enemy.x == playerPosition.x
-    const enemyCollisionY = enemy.y == playerPosition.y
+    const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3)
+    const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3)
     return enemyCollisionX && enemyCollisionY;
   });
 
@@ -99,6 +106,16 @@ function movePlayer() {
   }
 
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+}
+
+function levelPassed() {
+  console.log('Pasastes el nivel');
+  level++;
+  startGame();
+}
+
+function youWon() {
+  console.log('YOU WON!!!');  
 }
 
 window.addEventListener("keydown", moveByKeys);
