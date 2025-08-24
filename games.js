@@ -1,13 +1,14 @@
-const canvas = document.querySelector('#game');
-const game = canvas.getContext('2d');
-const btnUp = document.querySelector('#up');
-const btnRight = document.querySelector('#right');
-const btnLeft = document.querySelector('#left');
-const btnDown = document.querySelector('#down');
+const canvas = document.querySelector("#game");
+const game = canvas.getContext("2d");
+const btnUp = document.querySelector("#up");
+const btnRight = document.querySelector("#right");
+const btnLeft = document.querySelector("#left");
+const btnDown = document.querySelector("#down");
 
 let canvasSize;
 let elementsSize;
 let level = 0;
+let lifes = 3;
 
 const playerPosition = {
   x: undefined,
@@ -19,8 +20,8 @@ const giftPosition = {
 };
 let enemyPositions = [];
 
-window.addEventListener('load', setCanvasSize);
-window.addEventListener('resize', setCanvasSize);
+window.addEventListener("load", setCanvasSize);
+window.addEventListener("resize", setCanvasSize);
 
 function setCanvasSize() {
   if (window.innerHeight > window.innerWidth) {
@@ -29,8 +30,8 @@ function setCanvasSize() {
     canvasSize = window.innerHeight * 0.8;
   }
 
-  canvas.setAttribute('width', canvasSize);
-  canvas.setAttribute('height', canvasSize);
+  canvas.setAttribute("width", canvasSize);
+  canvas.setAttribute("height", canvasSize);
 
   elementsSize = canvasSize / 10;
 
@@ -40,8 +41,8 @@ function setCanvasSize() {
 function startGame() {
   console.log({ canvasSize, elementsSize });
 
-  game.font = elementsSize + 'px Verdana';
-  game.textAlign = 'end';
+  game.font = elementsSize + "px Verdana";
+  game.textAlign = "end";
 
   const map = maps[level];
 
@@ -50,29 +51,28 @@ function startGame() {
     return;
   }
 
-  const mapRows = map.trim().split('\n');
-  const mapCols = mapRows.map((row) => row.trim().split(''));
+  const mapRows = map.trim().split("\n");
+  const mapCols = mapRows.map((row) => row.trim().split(""));
   console.log({ map, mapRows, mapCols });
 
-  
   enemyPositions = [];
-  game.clearRect(0, 0, canvasSize, canvasSize);  
+  game.clearRect(0, 0, canvasSize, canvasSize);
   mapCols.forEach((row, rowI) => {
     row.forEach((col, colI) => {
       const emoji = emojis[col];
       const posX = elementsSize * (colI + 1);
       const posY = elementsSize * (rowI + 1);
 
-      if (col == 'O') {
+      if (col == "O") {
         if (!playerPosition.x && !playerPosition.y) {
           playerPosition.x = posX;
           playerPosition.y = posY;
           console.log({ playerPosition });
         }
-      } else if (col == 'I') {
+      } else if (col == "I") {
         giftPosition.x = posX;
         giftPosition.y = posY;
-      } else if (col == 'X') {
+      } else if (col == "X") {
         enemyPositions.push({
           x: posX,
           y: posY,
@@ -87,35 +87,51 @@ function startGame() {
 }
 
 function movePlayer() {
-  const giftCollisionX = playerPosition.x.toFixed(3) == giftPosition.x.toFixed(3);
-  const giftCollisionY = playerPosition.y.toFixed(3) == giftPosition.y.toFixed(3);
+  const giftCollisionX =
+    playerPosition.x.toFixed(3) == giftPosition.x.toFixed(3);
+  const giftCollisionY =
+    playerPosition.y.toFixed(3) == giftPosition.y.toFixed(3);
   const giftCollision = giftCollisionX && giftCollisionY;
 
   if (giftCollision) {
     levelPassed();
   }
 
-  const enemyCollision = enemyPositions.find(enemy => {
-    const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3)
-    const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3)
+  const enemyCollision = enemyPositions.find((enemy) => {
+    const enemyCollisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3);
+    const enemyCollisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3);
     return enemyCollisionX && enemyCollisionY;
   });
 
-    if (enemyCollision) {
-    console.log('Hit an enemy');
+  if (enemyCollision) {
+    levelFail();
   }
 
-  game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+  game.fillText(emojis["PLAYER"], playerPosition.x, playerPosition.y);
 }
 
 function levelPassed() {
-  console.log('Pasastes el nivel');
+  console.log("Pasastes el nivel");
   level++;
   startGame();
 }
 
 function youWon() {
-  console.log('YOU WON!!!');  
+  console.log("YOU WON!!!");
+}
+
+function levelFail() {
+  console.log("You lose");
+  lifes--;
+
+  if (lifes <= 0) {
+    level = 0;
+    lifes = 3;
+  }
+
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
+  startGame();
 }
 
 window.addEventListener("keydown", moveByKeys);
