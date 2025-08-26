@@ -4,11 +4,12 @@ const btnUp = document.querySelector("#up");
 const btnRight = document.querySelector("#right");
 const btnLeft = document.querySelector("#left");
 const btnDown = document.querySelector("#down");
+const spanLives = document.querySelector("#lives");
 
 let canvasSize;
 let elementsSize;
 let level = 0;
-let lifes = 3;
+let lives = 3;
 
 const playerPosition = {
   x: undefined,
@@ -54,6 +55,8 @@ function startGame() {
   const mapRows = map.trim().split("\n");
   const mapCols = mapRows.map((row) => row.trim().split(""));
   console.log({ map, mapRows, mapCols });
+
+  showLives();
 
   enemyPositions = [];
   game.clearRect(0, 0, canvasSize, canvasSize);
@@ -120,13 +123,22 @@ function youWon() {
   console.log("YOU WON!!!");
 }
 
-function levelFail() {
-  console.log("You lose");
-  lifes--;
+function showLives() {
+  const heartsArray = Array(lives).fill(emojis['HEART']);
+  
+  spanLives.innerHTML = "";
+  heartsArray.forEach(heart => spanLives.append(heart));
+  
+}
 
-  if (lifes <= 0) {
+function levelFail() {
+  console.log('You lose');
+  lives--;
+
+
+  if (lives <= 0) {
     level = 0;
-    lifes = 3;
+    lives = 3;
   }
 
   playerPosition.x = undefined;
