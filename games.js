@@ -6,6 +6,8 @@ const btnLeft = document.querySelector("#left");
 const btnDown = document.querySelector("#down");
 const spanLives = document.querySelector("#lives");
 const spanTime = document.querySelector("#time");
+const spanRecord = document.querySelector("#record");
+const pResult = document.querySelector("#result");
 
 let canvasSize;
 let elementsSize;
@@ -61,6 +63,7 @@ function startGame() {
   if (!timeStart) {
     timeStart = Date.now();
     timeInterval = setInterval(showTime, 100);
+    showRecord();
   }
   
   const mapRows = map.trim().split("\n");
@@ -130,9 +133,26 @@ function levelPassed() {
   startGame();
 }
 
-function youWon() {
+function youWonAndShowRecord() {
   console.log("YOU WON!!!");
   clearInterval(timeInterval);
+
+  const recordTime = localStorage.getItem('record_Time')
+  const playerTime = Date.now() - timeStart;
+
+  if (recordTime) {
+    if (recordTime > playerTime) {
+      localStorage.setItem('record_Time', playerTime);
+      pResult.innerHTML = 'Great!, you beat the record :)';
+    } else {
+      pResult.innerHTML = 'Sorry, you did not beat the record :(';  
+    }
+  } else {
+    localStorage.setItem('record_Time', playerTime);
+    pResult.innerHTML = 'First record';
+  }
+
+  console.log({recordTime, playerTime});  
 }
 
 function showLives() {
@@ -161,6 +181,10 @@ function levelFail() {
 
 function showTime() {
   spanTime.innerHTML = Date.now() - timeStart;
+}
+
+function showRecord() {
+  spanRecord.innerHTML = localStorage.getItem('record_Time');
 }
 
 window.addEventListener("keydown", moveByKeys);
