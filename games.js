@@ -33,9 +33,9 @@ window.addEventListener("resize", setCanvasSize);
 
 function setCanvasSize() {
   if (window.innerHeight > window.innerWidth) {
-    canvasSize = window.innerWidth * 0.7;
+    canvasSize = window.innerWidth * 0.8;
   } else {
-    canvasSize = window.innerHeight * 0.7;
+    canvasSize = window.innerHeight * 0.8;
   }
 
   canvas.setAttribute("width", canvasSize);
@@ -85,7 +85,7 @@ function startGame() {
         if (!playerPosition.x && !playerPosition.y) {
           playerPosition.x = posX;
           playerPosition.y = posY;
-          /* console.log({ playerPosition }); */
+        
         }
       } else if (col == "I") {
         giftPosition.x = posX;
