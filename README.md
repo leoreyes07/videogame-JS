@@ -1,4 +1,4 @@
-# Videogame-JS
+# Bela Game
 
 A lightweight, **Vanilla JavaScript** browser game featuring grid-based navigation and collision logic. This project demonstrates core game engine principles like coordinate-based movement, state management, and dynamic level rendering without external libraries.
 
