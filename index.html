@@ -1,30 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles.css">
-    <title>Bela Game</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Bela Game — Guide your dog 🐶 through 8 maze levels, dodge bombs 💣, and beat the record!">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./styles.css">
+  <title>Bela Game 🐶</title>
 </head>
 <body>
-    <div class="game-container">
-        <canvas id="game"></canvas>
+  <div class="game-wrapper">
 
-        <div class="buttons-container">
-            <button id="up">Up</button>
-            <button id="left">Left</button>
-            <button id="right">Right</button>
-            <button id="down">Down</button>
+    <!-- ── Header / HUD ─────────────────────────────────── -->
+    <header class="game-header">
+      <h1 class="game-title">🐶 Bela Game</h1>
+      <div class="hud">
+        <div class="hud-item">
+          <span class="hud-label">LEVEL</span>
+          <span id="level" class="hud-value">1</span>
         </div>
+        <div class="hud-item">
+          <span class="hud-label">LIVES</span>
+          <span id="lives" class="hud-value"></span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">TIME</span>
+          <span id="time" class="hud-value">00:00.00</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">RECORD</span>
+          <span id="record" class="hud-value">--:--</span>
+        </div>
+      </div>
+    </header>
 
-        <div class="messages">
-            <p>Lives: <span id="lives"></span></p>
-            <p>Time: <span id="time"></span></p>
-            <p>Record: <span id="record">localS</span></p>
-            <p id="result"></p>
-        </div>
+    <!-- ── Canvas ───────────────────────────────────────── -->
+    <main class="game-area">
+      <canvas id="game"></canvas>
+      <p id="result" class="result-msg"></p>
+    </main>
+
+    <!-- ── D-Pad ─────────────────────────────────────────── -->
+    <div class="dpad-container">
+      <div class="dpad">
+        <div class="dpad-empty"></div>
+        <button id="up"    class="dpad-btn" aria-label="Move Up">▲</button>
+        <div class="dpad-empty"></div>
+
+        <button id="left"  class="dpad-btn" aria-label="Move Left">◀</button>
+        <div class="dpad-center"></div>
+        <button id="right" class="dpad-btn" aria-label="Move Right">▶</button>
+
+        <div class="dpad-empty"></div>
+        <button id="down"  class="dpad-btn" aria-label="Move Down">▼</button>
+        <div class="dpad-empty"></div>
+      </div>
+      <p class="keyboard-hint">Arrow keys · WASD · Swipe canvas</p>
     </div>
-    <script src="./maps.js"></script>
-    <script src="./games.js"></script>
+
+  </div>
+
+  <!-- ── Modal overlay (win / game-over) ─────────────────── -->
+  <div id="modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-card">
+      <div id="modal-emoji"  class="modal-emoji"></div>
+      <h2  id="modal-title"  class="modal-title"></h2>
+      <p   id="modal-msg"    class="modal-msg"></p>
+      <div id="modal-stats"  class="modal-stats"></div>
+      <button id="modal-btn" class="modal-btn"></button>
+    </div>
+  </div>
+
+  <script src="./maps.js"></script>
+  <script src="./games.js"></script>
+
 </body>
 </html>
