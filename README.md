@@ -1,4 +1,4 @@
-# 🐶 Bela Game — Vanilla JS Arcade
+# 🐶 Bela Game - Vanilla JS Arcade
 
 A lightweight, **Vanilla JavaScript** puzzle-arcade game built entirely on HTML5 Canvas. Guide your dog (`🐶`) through 10 challenging mazes, dodge hidden explosives (`💣`), collect food (`🍗`), and try to unlock the exit door (`🚪`) in record time!
 
